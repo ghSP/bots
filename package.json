@@ -1,0 +1,15 @@
+{
+  "name": "discord.js-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sam Price",
+  "license": "MIT",
+  "dependencies": {
+    "@yaas/command-handler": "~2.1.3",
+    "discord.js": "~11.5.1"
+  }
+}
