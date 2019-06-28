@@ -1,4 +1,14 @@
 node_modules/
+.vscode/
 
 # Config file containing the login token
 config.js
+
+# Log files
+*.log
+*-log.*
+*error*
+
+# All dotfile should be gone, except this
+.*
+!.gitignore
