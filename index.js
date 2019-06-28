@@ -7,7 +7,7 @@ client.config = require('./config');
 client.handler = new Handler({ folder: __dirname + '/commands/', prefix: Array.from(client.config.prefix) });
 client.ownerID = client.config.ownerID;
 
-const print = () => console.log(arguments);
+const print = (...args) => console.log(...args);
 
 client.on('ready', () => {
   print(`Name: ${client.user.username}\nServers: ${client.guilds.array().length}`);
@@ -32,8 +32,5 @@ client.on('message', (message) => {
 });
 
 client.on('error', (err) => print('%c' + err, 'color:red'));
-client.on('debug', (info) => print('%c' + info, 'color:blue'));
-
-client.on('disconnect', () => client.login(client.config.token));
 
 client.login(client.config.token);
