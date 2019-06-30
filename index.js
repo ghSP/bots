@@ -1,11 +1,12 @@
 const { Client } = require('discord.js');
 const { readdirSync } = require('fs');
+const config = require('./config');
 
 const client = new Client();
 client.commands = new Map()
 client.aliases = new Map();
 
-client.config = require('./config');
+client.config = config;
 client.ownerID = client.config.ownerID;
 
 const print = (type, string, ...args) => {
@@ -45,6 +46,13 @@ client.on('message', (message) => {
   const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
 
   if (cmd != null) {
+    if (cmd.admin === true) {
+      if (author.id !== client.config.ownerID) {
+        return null;
+      }
+      cmd.run(client, message, args);
+      return true;
+    }
     cmd.run(client, message, args);
     return true;
   } else {
