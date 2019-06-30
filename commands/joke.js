@@ -7,7 +7,7 @@ class command {
   async run(client, message, args) {
     message.react('👍');
     message.react('👎');
-    console.log(`${message.author} told a joke in ${message.guild.name}`);
+    console.log(`${message.author.username} told a joke in ${message.guild.name}`);
   }
 }
 

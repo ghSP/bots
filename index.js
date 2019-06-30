@@ -1,28 +1,49 @@
 const { Client } = require('discord.js');
-const Handler = require('@yaas/command-handler');
+const { readdirSync } = require('fs');
 
 const client = new Client();
+client.commands = new Map()
+client.aliases = new Map();
 
 client.config = require('./config');
-client.handler = new Handler({ folder: __dirname + '/commands/', prefix: Array.from(client.config.prefix) });
 client.ownerID = client.config.ownerID;
 
-const print = (...args) => console.log(...args);
+const print = (type, string, ...args) => {
+  if (type) {
+    string.split('\n').forEach(l => console.log(`[${type.toUpperCase()}] ${l}`, ...args));
+  } else {
+    print('INFO', string, ...args);
+  }
+}
 
 client.on('ready', () => {
-  print(`Name: ${client.user.username}\nServers: ${client.guilds.array().length}`);
+  print('READY',`~~~~~~~\nName: ${client.user.username}\nServers: ${client.guilds.array().length}`);
 });
+
+
+const cmdFiles = readdirSync('./commands/');
+for (const file of cmdFiles) {
+  const cmd = require(`./commands/${file}`);
+  const command = new cmd();
+  client.commands.set(command.name, command);
+  command.aliases.forEach(alias => {
+    client.aliases.set(alias, command.name);
+  });
+}
+
+
 
 client.on('message', (message) => {
   const content = message.content;
   const author = message.author;
   
-  if (author.bot || content.indexOf(client.config.prefix) !== '0') return;
+  if (author.bot || !content.startsWith(client.config.prefix)) return;
 
-  const args = content.split(/\s+/g);
+  const args = content.slice(client.config.prefix.length).split(/\s+/g);
   const command = args.shift();
 
-  const cmd = client.handler.get(command);
+  const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
+
   if (cmd != null) {
     cmd.run(client, message, args);
     return true;
@@ -31,6 +52,6 @@ client.on('message', (message) => {
   }
 });
 
-client.on('error', (err) => print('%c' + err, 'color:red'));
+client.on('error', (err) => print('ERROR','%c' + err, 'color:red'));
 
 client.login(client.config.token);

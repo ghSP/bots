@@ -3,7 +3,7 @@
 
 This bot uses the following things:
 * `require/module.exports`, not `import/export`
-* My custom [command handler](https://github.com/yaas-dev/djs-command-handler/) (`npm i @yaas/command-handler`)
+* A command handler
 * A few different modules, some I have created/assembled and some from npm
   * `@yaas/bacon-cipher`
   * `discord.js`
