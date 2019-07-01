@@ -1,5 +1,5 @@
 # Trevor
-### NOTICE: FOR ANYONE WONDERING `trevor` IS THE EQUIVALENT OF THE `master` BRANCH
+#### NOTICE: `trevor` is this bots branch
 
 This bot uses the following things:
 * `require/module.exports`, not `import/export`
